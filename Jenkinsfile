@@ -1,11 +1,11 @@
 pipeline {
-    agent any
-
-	tools {
-    	    maven 'mvn-3.5.3'
-  	}
-
-        stages {
+    agent {
+        docker {
+            image 'maven:custom'
+            args '-u 1000 -v /home/thor/.m2:/home/prod/.m2'
+        }
+    }
+    stages {
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
@@ -28,4 +28,3 @@ pipeline {
         }
     }
 }
-
